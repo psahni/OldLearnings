@@ -1,0 +1,42 @@
+Create a free subdomain for email
+____________________________________
+https://www.google.com/a/cpanel/premier/new :30 days free trial
+
+http://webapps.stackexchange.com/questions/1009/how-can-i-setup-google-apps-email-for-a-subdomain
+
+http://www.htmlcenter.com/blog/setting-up-google-apps-gmail-for-your-domain/
+
+Receiving emails with rails
+_____________________________
+http://jasonseifer.com/2009/04/24/receving-email-with-rails
+
+Re-email gem
+http://leadthinking.com/233-sending-or-receiving-emails-with-rails
+
+
+Rails and IMAP
+http://railstips.org/blog/archives/2008/10/27/using-gmail-with-imap-to-receive-email-in-rails/
+_________________
+
+Tutorial - Creating a Custom Google In-site Search for Rails
+
+http://groups.google.com/group/rubyonrails-talk/browse_thread/thread/1dafefaf2b07340a/359f61dd60ee1d94
+https://gist.github.com/266242
+
+Hello All
+here you go with the rails cheat sheet and other references that might help
+---> http://www.ilovejackdaniels.com/cheat-s ... eat-sheet/
+---> http://www.blainekendall.com/uploads/Ru ... endall.pdf
+---> http://topfunky.com/clients/rails/ruby_ ... rtions.pdf
+---> http://www.scottklarr.com/topic/104/rub ... at-sheets/
+---> http://www.rorsecurity.info/ruby-on-rai ... heatsheet/
+---> http://garrettsnider.backpackit.com/pub/367902 (Rails Migration Cheat Sheet)
+---> http://www.threaded.com/rails_cheatsheet.htm (Threadeds Ruby on Rails Cheat
+Sheet)
+---> http://kpumuk.info/internet/ruby-on-rai ... at-sheets/
+---> http://labnotes.org/svn/public/ruby/rai ... select.pdf
+--> http://errtheblog.com/ (Please take out some time to do blogging as it helps
+you explore the depth of your knowledge and know different ways to doing things) Like
+they have mentioned captch implementation without the need to install imagemagic or rmagic
+using captchator here is the link: "http://errtheblog.com/posts/43-captchator-on-rails"
+

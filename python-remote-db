@@ -1,0 +1,12 @@
+#!/usr/bin/python
+print "Content-Type: text/html;charset=utf-8\n\n"
+print "Before import statement", "<br>"
+import MySQLdb
+print "After import statement", "<br>"
+myDB = MySQLdb.connect(host="xx.xx.xx.xx", port=3306, user="xxxxxxxxxx", passwd="xxxxxx")
+cHandler=myDB.cursor()
+cHandler.execute("SHOW DATABASES")
+results=cHandler.fetchall()
+print "=========================", "<br>"
+for items in results:
+   print items[0]

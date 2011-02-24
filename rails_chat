@@ -1,0 +1,30 @@
+http://railschat.googlecode.com/svn/trunk/
+
+https://github.com/dmitryame/echowaves
+https://github.com/maccman/juggernaut.git
+https://github.com/taelor/chat_sandbox.git
+
+Private Chat room in Ruby on Rails 3.0
+https://github.com/prabgupt/chatclient
+
+Group chat
+https://github.com/amiel/chat-engine.git
+
+An example of a web server written in Node which responds with "Hello World" for every request. 
+http://nodejs.org/#links
+
+-------------------------------------------------------
+HOW I RAN IT ON MY LOCAL MACHINE
+
+vinsol@Pirate ~/khelo/rails_chat/juggernaut $ sudo node server.js
+[sudo] password for vinsol: 
+12 Jan 10:48:45 - socket.io ready - accepting connections
+12 Jan 11:12:21 - Serving /application.js - OK
+
+vinsol@Pirate ~/khelo/rails_chat $ redis-server
+
+#rails server in chatclient app
+----------------------------------------------------------
+http://www.mysqlperformanceblog.com/2009/08/27/looking-at-redis/
+
+

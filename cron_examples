@@ -1,0 +1,21 @@
+More Examples
+
+To run /path/to/command five minutes after midnight, every day, enter:
+5 0 * * * /path/to/command
+Run /path/to/script.sh at 2:15pm on the first of every month, enter:
+15 14 1 * * /path/to/script.sh
+Run /scripts/phpscript.php at 10 pm on weekdays, enter:
+0 22 * * 1-5 /scripts/phpscript.php
+Run /root/scripts/perl/perlscript.pl at 23 minutes after midnight, 2am, 4am ..., everyday, enter:
+23 0-23/2 * * * /root/scripts/perl/perlscript.pl
+Run /path/to/unixcommand at 5 after 4 every Sunday, enter:
+5 4 * * sun /path/to/unixcommand
+
+* * * * * command to be executed
+- - - - -
+| | | | |
+| | | | ----- Day of week (0 - 7) (Sunday=0 or 7)
+| | | ------- Month (1 - 12)
+| | --------- Day of month (1 - 31)
+| ----------- Hour (0 - 23)
+------------- Minute (0 - 59)

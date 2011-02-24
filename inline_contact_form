@@ -1,0 +1,60 @@
+#inline_form {
+		/* keep the inline form hidden initially */
+		display: none;
+
+		position: relative;
+		padding: 10px;
+		width: 260px;
+	}
+
+	 // toggle visibility of inline form when link is clicked
+$("#a_inline_form").click( function() {
+
+	$("#inline_form").toggle(200);
+
+	$("#inline_form").css( "left", $("#a_inline_form").position().left +
+                                                $("#a_inline_form").width() );
+
+	$("#inline_form").css("top", "-40px");
+
+	// get cursor to texarea, ready to receive keystrokes!
+	$("#inlinecmt").focus();
+
+	// return false to prevent default link behaviour
+	return false;
+});
+
+$("#inline_form").submit( function() {
+
+	// make your ajax POST call here...
+
+	$("#a_inline_form").after('<span class="msg">Thanks for the comment!' +
+                               '</span>');
+	$("#inline_form").hide(200);
+
+	setTimeout( '$(".msg").hide()', 2000);
+
+	// return false to prevent default form submission behavior
+	return false;
+});
+-----------------------------------------------------------------------------------------------------------
+
+<%= select_tag "client_category",
+ options_for_select(Client::CATEGORY.keys, @client.category.to_sym),
+ { :onchange => remote_function( :url => update_client_path(@client), :with=>"'change_to='+this.value+''" ) } %>
+-----------------------------------------------------------------------------------------------------------
+
+function JumpToIt(list) {
+    var newPage = list.options[list.selectedIndex].value
+    if (newPage != "None") {
+        location.href=newPage
+    }
+}
+
+Convert hash conditions to array conditions (required by find_by_tsearch)
+class Hash
+  def to_array_conditions
+    [self.keys.map{|k| "#{k} = ?" }.join(" AND "), self.values].flatten
+  end
+end
+

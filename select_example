@@ -1,0 +1,19 @@
+
+  def show_countries
+    str = ''
+    @countries = Country.all.collect{|c| [c.name, c.id]}
+    @countries.each do |c|
+      str << "<option id=#{ c.last}>#{ c.first.titleize}</option>"
+    end
+    select "people", "id", @countries,{}
+  end
+
+#COLLECT OPTIONS
+    @countries.each do |c|
+      str << "<option id=#{ c.last}>#{ c.first.titleize}</option>"
+    end
+#<%=select("post", "person_id", Person.all.collect {|p| [ p.name, p.id ] }, { :include_blank => true })%>
+
+select_tag  "id", options_for_select(@countries)
+
+

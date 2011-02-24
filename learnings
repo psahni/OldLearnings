@@ -1,0 +1,74 @@
+---
+==============RVM==============
+---
+http://asciicasts.com/episodes/200-rails-3-beta-and-rvm
+http://rubylearning.com/blog/2010/12/20/how-do-i-keep-multiple-ruby-projects-separate/
+
+rvm install 1.8.7
+rvm list
+rvm gemset create my_pro
+rvm gemset use my_pro
+    Now using gemset 'my_pro'
+gem install httparty
+
+rvm use 1.9.1@new_pro
+
+error: Gemset 'new_pro' does not exist, rvm gemset create 'new_pro' first.
+Using /home/sahni/.rvm/gems/ruby-1.9.1-p378
+
+rvm gemset create new_pro
+'new_pro' gemset created (/home/sahni/.rvm/gems/ruby-1.9.1-p378@new_pro).
+
+rvm gemset use new_pro
+rvm 1.8.7p302
+
+
+_________________________________________________________________________________________________________________
+
+==rake db:create problem(production)==
+
+sudo env ARCHFLAGS="-arch x86_64" gem install mysql -- --with-mysql-config=/usr/bin/mysql_config
+
+Gantt chart
+http://www.youtube.com/watch?v=-QGC8_W5N8s#
+
+=============What To Do When Your Website Goes Down======
+http://www.smashingmagazine.com/2010/12/13/what-to-do-when-your-website-goes-down/
+
+==============Enabling Wireless in Ubuntu=========================
+sudo aptitude reinstall bcmwl-kernel-source
+
+
+http://rubylearning.com/blog/2010/12/20/how-do-i-keep-multiple-ruby-projects-separate/
+_________________________________________________________________________________________________________________
+
+==============+Blogs+==============
+http://railsperformance.blogspot.com/2010/12/good-to-know-week-1.html
+http://www.arailsdemo.com/posts
+_________________________________________________________________________________________________________________
+
+==============34 Ruby on Rails 3 resources to get you started==============
+
+http://adventuresincoding.com/2010/08/34-ruby-on-rails-3-resources-to-get-you-started/
+
+ABOUT REDIS
+		* Redis is a persistent in-memory key-value store 
+    * It's wicked fast. In fact, it may just be the fastest key-value store.
+    * The collection types and the atomic operations that work on them allow you to model some moderately complex data scenarios. This makes Redis fit some higher order problems where a simple key-value store wouldn't quite be enough.
+    * The snapshot data dumping model can be an asset. You get persistence with Redis, but you pay a minimal penalty for it.
+
+http://blog.grayproductions.net/articles/where_redis_is_a_good_fit
+http://www.engineyard.com/blog/2009/key-value-stores-for-ruby-part-4-to-redis-or-not-to-redis/
+
+_________________________________________________________________________________________________________________
+
+==============How to deal with protect_from_forgery to make Rails applications communicate?==============
+
+res = Net::HTTP.post_form(URI.parse('http://localhost:3030/support_requests/new'),
+                                    {'from'=>'somebody', 'due'=>'2009-03-31'})
+
+"You don't have to use ActiveResources. If you send your request as xml then it'll bypass the protect_from_forgery."                                   
+curl -H "Content-Type: text/xml" -d "<support-request><from>...</from></support-request>" -X POST http://localhost:3000/support_requests.xml -i
+
+==============MYSQL REMOTE ACCESS==============
+http://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html

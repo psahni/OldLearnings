@@ -1,0 +1,12 @@
+NewRelic-RPM
+http://railscasts.com/episodes/161-three-profiling-tools
+http://www.arailsdemo.com/posts/14
+
+Mysql query log
+In /etc/my.cnf file
+log_slow_queries        = /var/log/mysql/mysql-slow.log
+long_query_time         = 1
+
+
+USE OF S3 WITH PAPERCLIP
+

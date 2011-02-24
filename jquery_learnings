@@ -1,0 +1,19 @@
+Execute Events Only Once in jQuery
+
+<script type="text/javascript">
+    $(function() {
+        $("#Submit1").click(function() {
+            alert("Alert fires each time you click this button");
+        });
+    });
+
+</script>
+
+<script type="text/javascript">
+        $(function() {
+            $("#Submit1")
+            .one("click", function(event) {
+                alert("Alert wont fire again. Try!");
+            });
+        });
+    </script>

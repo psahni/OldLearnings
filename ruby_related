@@ -1,0 +1,45 @@
+This will load the rails environment
+______________________________________________________________________________________
+
+	require File.join(File.dirname(__FILE__), '..', 'config', 'environment')
+	File.expand_path(File.join(File.dirname(__FILE__), 'config', 'environment'))
+______________________________________________________________________________________
+
+in irb
+__FILE__ returns "(irb)"
+It refers to the current file
+
+$0 is current program
+
+File.expand_path(File.join(File.dirname(__FILE__), '../../..'))
+=> "/"
+>> File.expand_path(File.join(File.dirname(__FILE__), '../../'))
+=> "/home"
+>> File.expand_path(File.join(File.dirname(__FILE__), '../..'))
+=> "/home"
+>> File.expand_path(File.join(File.dirname(__FILE__), '../'))
+=> "/home/sahni"
+>> File.expand_path(File.join(File.dirname(__FILE__), '..'))
+=> "/home/sahni"
+>> File.expand_path(File.join(File.dirname(__FILE__)))
+=> "/home/sahni/vinsol-dot-com"
+>>
+----------------------------------------------------------------------------------------------
+RAILS_GEM_VERSION = nil
+RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '../../..'))
+RAILS_ENV = ENV['RAILS_ENV'] || 'development'
+
+if CloudCrowd.node?
+  require 'rubygems'
+  require 'activerecord'
+  ActiveRecord::Base.logger = Logger.new(STDOUT)
+  require File.expand_path(File.join(File.dirname(__FILE__), '../..', 'environment'))
+end
+---------------------------------------------------------------------------------------------
+ - gem environment
+ - ruby -e "require 'rubygems'; puts Gem.path"
+---------------------------------------------------------------------------------------------
+Fsck - A Ruby gem that allows you to be yourself while writing code. http://bit.ly/hXsQow
+---------------------------------------------------------------------------------------------
+Dir[File.join(Rails.root, 'app', 'jobs', '*.rb')].each { |file| require file }
+

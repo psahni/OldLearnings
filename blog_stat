@@ -1,0 +1,132 @@
+ - I got an opportunity to learn Jquery in my last project
+
+ - The user interface quite resembles with the Facebook
+
+ - I have to impelement Facebook like autosuggest with tagging support
+
+ - There are number of Jquery plugins available which does this, 
+
+  I found most of them incomplete or not to easy to modify
+
+- I choose http://code.drewwilson.com/entry/autosuggest-jquery-plugin
+ 
+  because of beautifully written code and easy customizable.
+
+	The full description of this plugin can read at this addr.
+	
+	However understanding some of the options is little confusing like 'format list' callback
+
+	In this post you will see how to use this callback with server side rails code working out of the box :)
+
+- In this post i will focus on integration with Rails
+
+- I have forked the original respository, added and modified some of the options
+	My github id : psahni
+
+
+How it works
+
+Step 1: Configration
+
+	copy the js files in public/javascripts
+
+	copy the css files in public/stylesheets
+
+	include them <%=stylesheet_link_tag 'name_of_css.css'%>
+		          <%=javascript_inclu_tag 'name_of_js.js'%>
+
+
+Step 2: 
+	My use case
+	
+	I want user to able add his/her favorite movies
+
+
+	I used acts_as_taggable_on plugin for that
+
+
+	In User model, i wrote 
+	
+	acts_as_taggable_on :favorite_movies
+
+	In view i wrote
+	
+	...................
+	..................
+	<div class='field'>
+		<%=form.text_field :favorite_movie_list, :id => 'movies'%> 
+	</div>
+	...................
+	...................
+
+
+
+Step 3: Calling the autosuggest
+
+ 'View'
+ 
+ I wanted to retrieve autosuggest options(movies) from the rails server
+	
+ As per plugin requirement, I will process the data with Ajax request, so I will send js request to the rails server
+	write the javascript in same or in application.js 
+	.........
+
+	<script type = 'text/javascript'>
+		$("#movies").autoSuggest("/users/favorite_movies.js",
+			{minChars: 1, matchCase: false, selectedItemProp: "name", searchObjProps: "name", startText: "Your favorite movies", 
+			asHtmlID:"favorite_foods",  neverSubmit: true});
+	</script>
+
+==================================================================================================
+
+	Note: The explanation about these options can be read at link - git@github.com:psahni/jquery-autosuggest.git
+				I have also created a 'demo' folder there in which it works out of the box.
+	 
+	Here $("#movies").autoSuggest("/users/favorite_movies.js",.....................
+
+	The call to $("#movies").autoSuggest........... will turn the normal input field into an 'autocomplete box'  on the fly 
+	(The input field gets hidden then)
+
+	users is a controller and favorite movies is an action
+
+	we are sending 	'js' request to the server and expecting a 'json' response in return
+	JSON is an extremely easy format to work with (You can first read about it if you have not used it till now.)
+
+	When an AJAX request is made the search string is sent over in a param named "q" by default. This search string is customizabel
+ you can change that name with the queryParam option. Here is an example http://users/favorite_movies/?q=incepti
+"mick" would be the search query that was typed into the input box. 
+
+	SERVER SIDE CODE
+
+==================================================================================================
+
+   'Controller'
+    ----------  
+		def favorite_movies
+			data = User.favorite_movie_tags(params[:q])
+			respond_to do |format|			
+				format.html{}
+				format.js{
+						render :json => data
+					}			
+			end
+		end
+==================================================================================================
+		'Model'
+    -------
+
+		def favorite_movie_tags(str)
+			taggings = User.tag_counts_on(:favorite_movies).collect{|t| [t.id, t.name]}
+			user_tags = taggings.select{|tag| tag[1].downcase.match("#{ str }".downcase)}.uniq
+          data = Array.new
+          user_tags.each do |tag|
+           json = Hash.new
+           json['name']  = tag[1] #name
+           json['value'] = tag[0] #id
+           data << json
+        end
+       return data
+      end
+		end	
+==================================================================================================	
+	
