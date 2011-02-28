@@ -1,0 +1,19 @@
+
+An A-record is an entry in your DNS zone file that maps each domain name (e.g. yourdomain.com) or subdomain (e.g. subdomain.yourdomain.com) to an IP address. In other words, the A-record specifies the IP address to which the user would be sent for each domain or subdomain. This means that you can have different subdomains of your website resolving to different IP addresses, which could be useful if they are hosted on different servers.
+
+
+Hi Dhrumil
+
+ The "A" record is pointing to our production server.
+
+The CName entry for "www" is pointing to another IP address (64.30.224.112).
+
+You will have to change it so that it points to "A record" (i.e cleaneats.com) from your domain management panel.
+
+(Guide for changing CName for Godaddy - http://help.godaddy.com/article/680#cnames)
+
+I will have to change my Apache configuration file once you make those changes.
+
+Thanks
+
+

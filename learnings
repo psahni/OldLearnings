@@ -13,6 +13,8 @@ gem install httparty
 
 rvm use 1.9.1@new_pro
 
+rvm use default - To switch to default
+
 error: Gemset 'new_pro' does not exist, rvm gemset create 'new_pro' first.
 Using /home/sahni/.rvm/gems/ruby-1.9.1-p378
 
@@ -72,3 +74,6 @@ curl -H "Content-Type: text/xml" -d "<support-request><from>...</from></support-
 
 ==============MYSQL REMOTE ACCESS==============
 http://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-server.html
+
+=============GIT COMMITS FOR RAILS 3.0.5==========
+https://github.com/rails/rails/compare/v3.0.4...v3.0.5

@@ -1,0 +1,25 @@
+* sudo apt-get install build-essential
+
+Even though RVM is a tool for installing, RVM itself is written in Ruby. So, even if you're only going to use it once, you have to install Ruby. So go ahead and install the 1.8 version your distro provides. You'll also need Rubygems.
+
+sudo apt-get install zlib1g-dev libreadline5-dev libssl-dev libxml2-dev
+
+$ sudo apt-get install ruby1.8 rubygems1.8
+* rvm
+* rvm install 1.9.2
+
+sudo apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf
+
+
+sudo apt-get install ruby-full build-essential
+
+Rmagick
+sudo apt-get install libmagick9-dev ruby1.8-dev
+
+
+CAPISTRANO MULTISTAGING
+
+Features provided in the capistrano-ext gem allows you to setup multiple environments within your deploy.rb file giving you the ability to run commands such as: 
+	cap development deploy:migrations
+	cap production deploy:migrations
+https://boxpanel.bluebox.net/public/the_vault/index.php/Capistrano_Multi_Stage_Instructions

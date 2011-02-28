@@ -1,0 +1,21 @@
+The ideal Rails candidate has:
+
+Real-world experience using MVC frameworks to build high-traffic web sites and applications. While we don’t expect any graphic design skills from our developers, candidates should be well-versed in the world of HTML, CSS and Javascript/Ajax. Knowing how to develop RESTful applications is a big plus.
+A love of testing and test-driven development. You should know how to write standard Rails unit tests, and/or a popular specification framework like RSpec, shoulda, Cucumber, etc.
+Real-world experience with Agile engineering practices (test-driven development, object-oriented design, refactoring, DRY, YAGNI)
+Thorough understanding of common web and e-commerce concepts and technologies, such as: HTTP, SSL, XML and associated technologies, background job processing, message queues, content management concepts, public-key cryptography, application and data security and privacy issues, basic TCP/IP networking. Experience producing and consuming web services (SOAP, REST, XML-RPC) is a big plus.
+
+
+Advanced Ruby programming (DSLs all the way down)
+- BDD with RSpec and Cucumber
+- Object-oriented, domain-driven design
+- Cloud computing infrastructure (EC2 and S3)
+- Computer science and discrete mathematics
+- JavaScript programming with jQuery
+- iPhone/Android application development
+- Data visualisation
+- Messaging queues and NoSQL-style data stores
+
+
+Important links
+http://jobs.rubyinside.com/a/jbb/job-details/450042
