@@ -1,0 +1,35 @@
+
+def rescue_action_in_public(exception)
+    #maybe gather up some data you'd want to put in your error page
+    case exception
+      when ActionController::InvalidAuthenticityToken
+      when ArgumentError
+      when SyntaxError
+        render :template => "shared/error500", :layout => "error", :status => "500"
+      else
+        render :template => "shared/error404", :layout => "error", :status => "404"
+    end
+  end
+
+
+  
+  def render_optional_error_file(status_code)
+  if status_code == :not_found
+      render_404
+    else
+      super
+    end
+  end
+
+  def render_404
+    respond_to do |type|
+      type.html { render :template => "errors/error_404", :layout => 'application', :status => 404 }
+      type.all  { render :nothing => true, :status => 404 }
+    end
+     true  # so we can do "render_404 and return"
+  end
+
+  http://henrik.nyh.se/2008/07/rails-404
+  http://coderkitty.sweetperceptions.com/2008/7/6/meaningful-404s-and-500s
+	http://www.perfectline.ee/blog/custom-dynamic-error-pages-in-ruby-on-rails
+
