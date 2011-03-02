@@ -19,3 +19,7 @@ Run /path/to/unixcommand at 5 after 4 every Sunday, enter:
 | | --------- Day of month (1 - 31)
 | ----------- Hour (0 - 23)
 ------------- Minute (0 - 59)
+
+
+RVM + CRON
+http://thekindofme.wordpress.com/2010/10/16/task-scheduling-with-cron-rvm-and-rails/

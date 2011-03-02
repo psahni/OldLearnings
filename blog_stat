@@ -1,27 +1,17 @@
- - I got an opportunity to learn Jquery in my last project
-
- - The user interface quite resembles with the Facebook
-
- - I have to impelement Facebook like autosuggest with tagging support
-
- - There are number of Jquery plugins available which does this, 
-
-  I found most of them incomplete or not to easy to modify
-
-- I choose http://code.drewwilson.com/entry/autosuggest-jquery-plugin
- 
-  because of beautifully written code and easy customizable.
-
-	The full description of this plugin can read at this addr.
+I got an opportunity to learn Jquery in my last project, The user interface quite resembles with the Facebook.
 	
-	However understanding some of the options is little confusing like 'format list' callback
+I have to impelement Facebook like autosuggest with tagging support, There are number of Jquery plugins available which does this, 
+i found most of them incomplete or not to easy to modify
 
-	In this post you will see how to use this callback with server side rails code working out of the box :)
+I choose http://code.drewwilson.com/entry/autosuggest-jquery-plugin, because of beautifully written ruby and easy customizable.
+The full description of this plugin can read at above  addr.	
 
-- In this post i will focus on integration with Rails
+However understanding some of the options is little confusing like 'format list' callback
+In this post you will see how to use this callback with server side rails ruby working out of the box :)
 
-- I have forked the original respository, added and modified some of the options
-	My github id : psahni
+In this post i will focus on integration with Rails
+I have forked the original respository, added and modified some of the options
+My github id : psahni
 
 
 How it works
@@ -32,30 +22,32 @@ Step 1: Configration
 
 	copy the css files in public/stylesheets
 
-	include them <%=stylesheet_link_tag 'name_of_css.css'%>
-		          <%=javascript_inclu_tag 'name_of_js.js'%>
+	include them 
+							<code>
+	  						<%=stylesheet_link_tag 'name_of_css.css'%>
+		            <%=javascript_inclu_tag 'name_of_js.js'%>
+							</ruby>		
 
 
 Step 2: 
 	My use case
+	I want user to able add his/her favorite movies, i used acts_as_taggable_on plugin for that
 	
-	I want user to able add his/her favorite movies
-
-
-	I used acts_as_taggable_on plugin for that
-
-
 	In User model, i wrote 
-	
-	acts_as_taggable_on :favorite_movies
+
+	<code>	
+		acts_as_taggable_on :favorite_movies
+	</ruby>
 
 	In view i wrote
 	
 	...................
 	..................
+	<code>
 	<div class='field'>
 		<%=form.text_field :favorite_movie_list, :id => 'movies'%> 
 	</div>
+	</ruby>
 	...................
 	...................
 
@@ -70,14 +62,15 @@ Step 3: Calling the autosuggest
  As per plugin requirement, I will process the data with Ajax request, so I will send js request to the rails server
 	write the javascript in same or in application.js 
 	.........
-
+	<code>
 	<script type = 'text/javascript'>
 		$("#movies").autoSuggest("/users/favorite_movies.js",
 			{minChars: 1, matchCase: false, selectedItemProp: "name", searchObjProps: "name", startText: "Your favorite movies", 
 			asHtmlID:"favorite_foods",  neverSubmit: true});
 	</script>
+	</ruby>
 
-==================================================================================================
+
 
 	Note: The explanation about these options can be read at link - git@github.com:psahni/jquery-autosuggest.git
 				I have also created a 'demo' folder there in which it works out of the box.
@@ -96,12 +89,14 @@ Step 3: Calling the autosuggest
  you can change that name with the queryParam option. Here is an example http://users/favorite_movies/?q=incepti
 "mick" would be the search query that was typed into the input box. 
 
-	SERVER SIDE CODE
+	
+	SERVER SIDE ruby
 
-==================================================================================================
+
 
    'Controller'
-    ----------  
+
+		<pre><code>
 		def favorite_movies
 			data = User.favorite_movie_tags(params[:q])
 			respond_to do |format|			
@@ -111,10 +106,11 @@ Step 3: Calling the autosuggest
 					}			
 			end
 		end
-==================================================================================================
-		'Model'
-    -------
-
+		</code></pre>
+		
+	'Model'
+    
+	<pre><code>
 		def favorite_movie_tags(str)
 			taggings = User.tag_counts_on(:favorite_movies).collect{|t| [t.id, t.name]}
 			user_tags = taggings.select{|tag| tag[1].downcase.match("#{ str }".downcase)}.uniq
@@ -128,5 +124,6 @@ Step 3: Calling the autosuggest
        return data
       end
 		end	
-==================================================================================================	
+	</code></pre>
+
 	

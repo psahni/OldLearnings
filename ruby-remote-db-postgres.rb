@@ -1,10 +1,16 @@
 require 'rubygems'
-require 'activerecord'
+require 'active_record'
 require 'logger'
 require 'postgres'
 
 ActiveRecord::Base.logger = Logger.new(STDERR)
 ActiveRecord::Base.colorize_logging = false
+
+#LOGIC
+
+#1. Find users
+#2.
+#3. Find relationship
 
 conn = ActiveRecord::Base.establish_connection(
 	:adapter  => 'postgresql',
@@ -14,13 +20,13 @@ conn = ActiveRecord::Base.establish_connection(
 	:username => 'osmuser',
 	:password => '$eed$'	
 )
-sql = "Select * from patients" 
 
+sql = "Select * from patients" 
 output = ActiveRecord::Base.connection.execute(sql)
 
 output.each{|o| 
-p o
-print "\n"
+	p o
+	print "\n"
 }
 
 #http://efreedom.com/Question/1-2410373/Run-Sql-Script-Ruby
@@ -32,4 +38,4 @@ print "\n"
 #http://magicmodels.rubyforge.org/dr_nic_magic_models/ - > magic models
 #postgresql_autodoc -h 24.229.182.156 -d osmdb -u osmuser --password='$eed$'
 #dot -Tpng osmdb.dot > focusdirect-2.png
-
+#http://net.tutsplus.com/tutorials/ruby/setting-up-a-rails-server-and-deploying-with-capistrano-on-fedora-from-scratch/
