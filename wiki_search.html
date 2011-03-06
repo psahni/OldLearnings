@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>WikiPedia Custom Search Sample 2</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"></script>
+</head>
+<body>
+<style>
+.popUp{
+  position: absolute;
+  /*top: 10px;*/
+  /*left: 10px;*/
+  z-index: 2;
+  width: 500px;
+  height: auto;
+  background-color: #dcdcdc;
+  border-left: 1px #8a8a8a solid;
+  border-top: 1px #8a8a8a solid;
+  border-right: 1px #a6a6a6 solid;
+  border-bottom: 1px #a6a6a6 solid;
+}
+
+.popUpHeader{
+  margin: 0;
+  padding: 3px;
+  border-bottom: 1px #8a8a8a solid;
+  background-color: #c73734;
+  color: #fff;
+  font-weight: bold;
+}
+      
+.popUpContent{
+  background-color: #f9f9f9;
+  margin-top: 25px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  border-left: 1px #bcbcbc solid;
+  border-top: 1px #bcbcbc solid;
+  border-right: 1px #fff solid;
+  border-bottom: 1px #fff solid;
+}
+</style>
+Click on links: <blockquote>
+<a href="#" class="wikiItem">Jaipur</a>&nbsp;&nbsp;<a href="#" class="wikiItem">Golygon</a></blockquote>
+<script type="text/javascript">
+
+$(document).mousedown(function(e) {
+        if (!$(e.target).closest('#popUpBox').length)
+             $('#popUpBox').remove();
+        //$('#popUpBox').fadeOut('fast');
+      });
+      
+$('.wikiItem').click(function(e){
+
+    var place = $(this).text();
+    var mouseFromLeft = e.pageX;
+    var mouseFromTop = e.pageY;
+    
+    var header = $('<div />').addClass('popUpHeader').text(place);
+    var content = $('<div />').attr('id', 'popUp_summary')
+                    .addClass('popUpContent')
+                    .append($('<div/>').attr({'id':'loader', 'alt':'Loading, Loading!'}).append('Loading...'))
+                    .append($('<a/>').attr({'id':'closeLink'}).html('<br/><br />close'))
+                    .appendTo('body');
+    
+    $('<div />').attr('id', 'popUpBox')
+          .addClass('popUp')
+          .css({'top':mouseFromTop, 'left':mouseFromLeft})
+          .append(header)
+          .append(content)
+          .appendTo('body');
+    getSummary_Wikipedia(place);
+
+});
+
+$('#closeLink').live('click', function(){
+          $('#popUpBox').remove();
+        });
+
+function getSummary_Wikipedia(page_id) {
+      title = page_id;
+      $.ajax({
+        url: 'http://en.wikipedia.org/w/api.php',
+        data: {
+          action:'parse',
+          prop:'text',
+          page:title,
+          format:'json'
+        },
+        dataType:'jsonp',
+        success: function(data) {
+          wikipage = $("<div>"+data.parse.text['*']+"<div>").children('p:first');
+          wikipage.find('sup').remove();
+          wikipage.find('a').each(function() {
+             var href = $(this).attr('href');
+             /* put a check for wikipedia link. do not touch rest of the links*/
+             $(this)
+                .attr('href', "javascript:getSummary_Wikipedia('"+ href.substring(href.lastIndexOf('/')+1) +"')")
+          });
+          $('#loader').hide();
+          $("#popUp_summary").html(wikipage);
+          $("#popUp_summary").append($('<a />').attr({'id':'closeLink'}).html('<br /><br />close'));
+          $("#popUp_summary").append($('<a />').attr({'href':'http://en.wikipedia.org/wiki/'+title, 'id':'readMore', 'target':'wikipedia'}).html('&nbsp;Read More'));
+        }
+      });
+}
+</script>
+</body>
+</html>
+
+

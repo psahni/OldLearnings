@@ -1,0 +1,11 @@
+*Individual features, like canvas, video, or geolocation.
+
+	You can use this API to detect support for different video formats, play a video, pause, mute audio, track how much of the video has been downloaded, and 	everything else you need to build a rich user experience around the <video> tag itself.
+
+*You don’t need to throw away your existing markup. You don’t need to relearn things you already know.
+	If your web application worked yesterday in HTML 4, it will still work today in HTML5. Period.
+	Controls like sliders and date pickers
+
+* In HTML5, there is only one doctype:
+    <!DOCTYPE html>
+	Even Microsoft will be supporting most HTML5 features in the upcoming Internet Explorer 9.

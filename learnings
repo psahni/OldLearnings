@@ -58,6 +58,7 @@ ABOUT REDIS
     * It's wicked fast. In fact, it may just be the fastest key-value store.
     * The collection types and the atomic operations that work on them allow you to model some moderately complex data scenarios. This makes Redis fit some higher order problems where a simple key-value store wouldn't quite be enough.
     * The snapshot data dumping model can be an asset. You get persistence with Redis, but you pay a minimal penalty for it.
+http://www.golygon.com/tag/rails-3/
 
 http://blog.grayproductions.net/articles/where_redis_is_a_good_fit
 http://www.engineyard.com/blog/2009/key-value-stores-for-ruby-part-4-to-redis-or-not-to-redis/

@@ -1,0 +1,73 @@
+html>
+<head>
+<title>Wikipedia custom search</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js" type="text/javascript"></script>
+<link rel="apple-touch-icon" href="http://en.wikipedia.org/apple-touch-icon.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="copyright" href="http://creativecommons.org/licenses/by-sa/3.0/">
+<link rel="stylesheet" href="http://bits.wikimedia.org/skins-1.5/vector/main-ltr.css" type="text/css" media="screen">
+<link rel="stylesheet" href="http://bits.wikimedia.org/skins-1.5/common/shared.css?283-17" type="text/css" media="screen">
+<link rel="stylesheet" href="http://bits.wikimedia.org/w/extensions/UsabilityInitiative/css/combined.min.css" type="text/css" media="all">
+
+  <div style="text-align:center;border:solid 1px #b73734;-webkit-border-radius:4px;-moz-border-radius:4px; border-radius:4px;">
+    <div style="text-align:center; font-size:14px; border-bottom:1px">
+      Search WikiPedia
+    </div>
+    <br>
+   <form accept-charset="UTF-8" action="" id="inputform" method="post">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text">
+      <input name="commit" type="submit" value="Search">
+</form>
+    <br>
+  </div>
+  
+  <div id="container">
+    <div id="wiki_container"></div>
+    <div id="wiki_attribution" style="text-align:left; border-top:1px solid #c73734; font-size:13px;"></div>
+  </div>
+<script language="JavaScript" type="text/javascript">
+
+  $('#inputform').submit(function(){
+    var name = $('#name').attr("value");
+    getAreaMetaInfo_Wikipedia(name);
+    return false;
+  });
+  
+
+function getAreaMetaInfo_Wikipedia(page_id) {
+title = page_id;
+      $.ajax({
+        url: 'http://en.wikipedia.org/w/api.php',
+        data: {
+          action:'parse',
+          prop:'text',
+          page:title,
+          format:'json'
+        },
+        dataType:'jsonp',
+        success: function(data) {
+          wikipage = $("<div>"+data.parse.text['*']+"</div>");
+          wikipage.find('sup').remove();
+          wikipage.find('a').each(function() {
+             var href = $(this).attr('href');
+             /* put a check for wikipedia link. do not touch rest of the links*/
+             $(this)
+                .attr('href', "javascript:getAreaMetaInfo_Wikipedia('"+ href.substring(href.lastIndexOf('/')+1) +"')")
+          });
+          $("#wiki_container").html(wikipage);
+          $("#References").hide();
+          $("div.reflist").hide();
+       $('table.infobox').hide();
+       $('table.toc').hide();
+       $('table.navbox').hide();
+       $('span.editsection').hide();
+       $('#wiki_attribution').html("Description above from the Wikipedia article <a href='http://en.wikipedia.org/wiki/" +title+"' target='wikipedia'>"+title.replace(/_/g,' ')+
+      "</a>, licensed under <a href='http://creativecommons.org/licenses/by-sa/3.0/' target='wikipedia'>CC-BY-SA</a>, full list of contributors <a href='http://en.wikipedia.org/w/index.php?title="+title+
+      "&action=history' target='wikipedia'>here</a>. Community Pages are not affiliated with, or endorsed by, anyone associated with the topic.");
+        }
+      });
+}
+</script>
+
+

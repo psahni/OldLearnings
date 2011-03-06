@@ -1,0 +1,205 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" /> 
+<title>Bing Instant with Jquery 9lessons</title> 
+<meta content='Yahoo Instant Search with Jquery' name='description'/> 
+<meta content='Yahoo Instant search, 9lessons, PHP' name='keywords'/> 
+<script type="text/javascript" src="http://ajax.googleapis.com/
+ajax/libs/jquery/1.5/jquery.min.js"></script> 
+ 
+<script type="text/javascript"> 
+$(document).ready(function()
+{
+$(".search_input").focus();
+$(".search_input").keyup(function() 
+{
+var search_input = $(this).val();
+var keyword= encodeURIComponent(search_input);
+
+var yahoo_url='http://boss.yahooapis.com/ysearch/web/v1/'+keyword+'?appid=DFkOm6jIkY58gnDq55gbs97xEKE13w--&format=json&callback=myData&count=10';
+
+var bing_url='http://api.search.live.net/json.aspx?JsonType=callback&JsonCallback=?&Appid=642636B8B26344A69F5FA5C22A629A163752DC6B&query='+keyword+'&sources=web&web.count=10';
+ 
+function yahoo()
+{ 
+return $.ajax({
+type: "GET",
+url: yahoo_url,
+dataType:"jsonp",
+success: function(yahoo_data)
+{
+}
+});
+}
+
+function bing()
+{ 
+return $.ajax({
+type: "GET",
+url: bing_url,
+dataType:"jsonp",
+success: function(yahoo_data)
+{
+}
+});
+}
+
+$.when( yahoo(), bing()).done(function(yahoo_data, bing_data)
+{
+var yahoo=yahoo_data[0].ysearchresponse.resultset_web;
+var bing=bing_data[0].SearchResponse.Web.Results;
+
+
+if(yahoo)
+{
+$("#yahoo_result").html('');
+$.each(yahoo, function(i,data)
+{
+var title=data.title;
+var dis=data.abstract;
+var url=data.url;
+var dispurl=data.dispurl;
+var final="<div class='webresult'><div class='title'><a href='"+url+"' target='_blank'>"+title+"</a></div><div class='desc'>"+dis+"</div><div class='url'>"+dispurl+"</div></div&gt;";
+$("#yahoo_result").append(final); // Result
+});
+}
+
+
+if(bing)
+{
+$("#bing_result").html('');
+$.each(bing, function(i,data)
+{
+var title=data.Title;
+var dis=data.Description;
+var url=data.Url;
+var DisplayUrl=data.DisplayUrl;
+var final="<div class='webresult'><div class='title'><a href='"+url+"' target='_blank'>"+title+"</a></div><div class='desc'>"+dis+"</div><div class='url'>"+DisplayUrl+"</div></div&gt;";
+$("#bing_result").append(final); // Result
+});
+}
+
+});
+ 
+ 
+ 
+ 
+ 
+});
+});
+ 
+</script> 
+<style> 
+body {
+
+color:#000;
+font-family:Verdana, Arial, Helvetica, sans-serif;
+font-size:12px;
+
+}
+#container
+{
+
+
+}
+
+ 
+.search_input
+{
+ 
+border:2px solid #333;
+font-size:20px;
+padding:5px;
+width:350px;
+font-family:'Georgia', Times New Roman, Times, serif;
+-moz-border-radius:5px;-webkit-border-radius:5px;
+ 
+ 
+}
+#input_box
+{
+text-align:left;
+width:640px;
+}
+#result
+{
+text-align:left;
+
+}
+#no
+{
+padding:30px;
+font-size:24px;
+color:#fff;
+ 
+}
+ 
+.title
+{
+
+
+font-size:16px;
+padding-bottom:5px;
+
+
+}
+.title a
+{
+color:#7B0099;
+text-decoration:none;
+}
+.desc
+{
+color:#333;
+padding-bottom:5px;
+
+
+ 
+}
+
+.url
+{
+ color:#006600;
+}
+.webresult
+{
+margin-top:10px;
+padding-bottom:10px;
+padding-left:5px;
+border-bottom:1px dashed #dedede;
+}
+#yahoo_result, #bing_result
+{
+float:left;
+width:450px;
+}
+
+</style> 
+</head> 
+ 
+<body> 
+
+<div id="container"> 
+ 
+<div id="input_box"> 
+
+<img src="yahoo.jpg" /><br/> 
+<input type="text" class='search_input'  />
+ 
+</div> 
+
+<div id="yahoo_result"> 
+
+</div> 
+
+<div id="bing_result"> 
+
+</div> 
+
+
+</div> 
+
+</body> 
+</html> 

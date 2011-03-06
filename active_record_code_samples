@@ -1,0 +1,8 @@
+JOINS
+class Group < ActiveRecord::Base
+  has_and_belongs_to_many :users
+end
+def active_users
+    User.find(:all, :conditions => ['groups_users.group_id = ? AND status > ?', self.id, User::Status[:deleted]],
+                    :joins => 'INNER JOIN groups_users ON users.id = groups_users.user_id')
+end

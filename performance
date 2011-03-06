@@ -10,3 +10,27 @@ long_query_time         = 1
 
 USE OF S3 WITH PAPERCLIP
 
+
+Select all users that have entries in request table
+SELECT u.userID, u.lastname, u.firstname
+FROM User u
+WHERE userID IN (SELECT userID FROM Request)
+
+-- again, select all users that have entries in request table
+SELECT u.userID, u.lastname, u.firstname
+FROM User u
+WHERE EXISTS
+(
+SELECT *
+FROM Request
+WHERE userID=u.userID
+)
+
+Plus, you could use a join, too:
+
+SELECT DISTINCT u.userID, u.lastname, u.firstname
+FROM User u, Request r
+WHERE r.userID=u.userID
+
+But, note the use of DISTINCT here. Without it, you will get multiple records for users with more than 1 request. The cost of DISTINCT is pretty high, so that alternative is usually slower than EXISTS.
+
