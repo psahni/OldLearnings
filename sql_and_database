@@ -1,0 +1,21 @@
+CONCURRENCY CONTROL
+------------------
+Optimistic Locking:
+
+In the field of relational database management systems, optimistic concurrency control (OCC) is a concurrency control method that assumes that multiple transactions can complete
+ without affecting each other, and that therefore transactions can proceed without locking the data resources that they ...
+
+
+Active Records support optimistic locking if the field lock_version is present. Each update to the record increments the lock_version column and the locking facilities ensure that records instantiated twice will let the last one saved raise a StaleObjectError if the first was also updated. Example:
+
+p1 = Person.find(1)
+p2 = Person.find(1)
+
+p1.first_name = "Michael"
+p1.save
+
+p2.first_name = "should fail"
+p2.save # Raises a ActiveRecord::StaleObjectError
+
+
+http://api.rubyonrails.org/classes/ActiveRecord/Locking/Optimistic.html

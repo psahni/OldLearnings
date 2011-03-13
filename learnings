@@ -78,3 +78,18 @@ http://www.cyberciti.biz/tips/how-do-i-enable-remote-access-to-mysql-database-se
 
 =============GIT COMMITS FOR RAILS 3.0.5==========
 https://github.com/rails/rails/compare/v3.0.4...v3.0.5
+
+
+"How do I select unique pairs of rows from a table at random?"
+----------------------------------------------------------------
+select a.id, b.id
+from people1 a
+inner join people1 b on a.id < b.id
+where not exists (
+    select *
+    from pairs1 c
+    where c.person_a_id = a.id
+      and c.person_b_id = b.id)
+order by a.id * rand()
+limit 1;
+

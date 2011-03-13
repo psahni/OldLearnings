@@ -9,3 +9,7 @@ Here's an example under Linux on how to set up a replication through SSH:
     rsync -avz -e ssh rsync@remote.acme.com:/home/rsync/out/ /home/rsync/from_remote 
 
 http://www.cyberciti.biz/tips/linux-use-rsync-transfer-mirror-files-directories.html
+
+
+Rails one-liner to get URLs from rake routes
+rake routes | sed -e "1d" -e "s,^[^/]*,,g" | awk '{print $1}' | uniq | sort

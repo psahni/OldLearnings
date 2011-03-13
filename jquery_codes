@@ -1,0 +1,5 @@
+$(document).ready(function () {
+    $(".click_box").click(function(){
+      $("a:first", $(this)).trigger("click");
+    });
+})

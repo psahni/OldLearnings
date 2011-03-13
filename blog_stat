@@ -25,7 +25,7 @@ Step 1: Configration
 	include them 
 							<code>
 	  						<%=stylesheet_link_tag 'name_of_css.css'%>
-		            <%=javascript_inclu_tag 'name_of_js.js'%>
+		            <%=javascript_inclu_tag 'nam.js'%>
 							</ruby>		
 
 

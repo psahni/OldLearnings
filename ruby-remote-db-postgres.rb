@@ -24,29 +24,74 @@ require 'logger'
 require 'postgres'
 
 ActiveRecord::Base.logger = Logger.new(STDERR)
-ActiveRecord::Base.colorize_logging = false
+#ActiveRecord::Base.colorize_logging = false
 
 #___________________________________________________________________________________________________________________________
+@@counter = 10
+def settings
+	conn = ActiveRecord::Base.establish_connection(
+		:adapter  => 'postgresql',
+		:database => 'osmdb',
+		:host => '24.229.182.156',
+		:port => '5432',
+		:username => 'osmuser',
+		:password => '$ee$'	
+	)
+end
 
-conn = ActiveRecord::Base.establish_connection(
-	:adapter  => 'postgresql',
-	:database => 'osmdb',
-	:host => '24.229.182.156',
-	:port => '5432',
-	:username => 'osmuser',
-	:password => '$eed$'	
-)
-
+def conn
+puts  "counter = #{@@counter}"
+settings.connection
+rescue ActiveRecord::ConnectionNotEstablished
+	puts  "counter = #{@@counter}"
+	puts "Exception1 Occured: Trying Again"
+	@@counter-=1
+	if @@counter < 1
+	 puts "Exiting"
+	 exit 0
+  end
+	settings.disconnect
+	conn
+rescue PGError
+ puts  "counter = #{@@counter}"
+ puts "Exception2 Occured: Trying Again"
+ @@counter-=1
+ if @@counter < 1
+	 puts "Exiting"
+	 exit 0
+ end
+ conn
+rescue Exception => e
+	puts "Exception Caught #{e}"
+	@@counter-=1
+ if @@counter < 1
+	 puts "Exiting"
+	 exit 0
+ end
+end
+conn
 #___________________________________________________________________________________________________________________________
 
-sql = "Select * from patient_responsible_parties" 
-output = ActiveRecord::Base.connection.execute(sql)
 
-output.each{|o| 
-	p o
-	print "\n"
-}
+def fetch
+	@counter||=9
+	begin
+	sql = "Select * from patient_responsible_parties" 
+	output = ActiveRecord::Base.connection.execute(sql)
+	output.each{|o| 
+		p o
+		print "\n"
+	}
+	rescue ActiveRecord::ConnectionNotEstablished
+		puts  "counter = #{@counter}"
+		puts "Exception1 Occured: Trying Again"
+	rescue PGError
+	 puts  "counter = #{@counter}"
+	 puts "Exception2 Occured: Trying Again"
+	rescue Exception
+		puts "Exception Caught"
+	end
+end
+fetch
 
-
-#___________________________________________________________________________________________________________________________
 
