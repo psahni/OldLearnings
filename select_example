@@ -16,4 +16,4 @@
 
 select_tag  "id", options_for_select(@countries)
 
-
+f.collection_select :category_id, Category.all, :id, :name

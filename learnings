@@ -93,3 +93,56 @@ where not exists (
 order by a.id * rand()
 limit 1;
 
+"HOW TO INCLUDE RAILS HELPERS IN CONTROLERS"
+----------------------------------------------------------------
+
+*- http://snippets.dzone.com/posts/show/1799
+*- http://fazibear.blogspot.com/2008/06/include-helpers-in-controllers.html
+
+
+
+  def help
+    Helper.instance
+  end
+
+  class Helper
+    include Singleton
+    include ActionView::Helpers::TextHelper
+  end
+
+  def check_for_max_donkeys
+    if Donkey.find_fit_donkeys.size == APP_SETTINGS['max_fit_donkeys']
+      flash_error "The maximum of #{help.pluralize(APP_SETTINGS['max_fit_donkeys'], 'donkey')} has been reached."
+      redirect_to_index
+    end
+  end
+
+----------------------------------------------------------------
+   1. class ApplicationController < ActionController::Base  
+   2.   def self.include_helper(*args)  
+   3.     require 'action_controller/integration'  
+   4.     class_eval do  
+   5.       helpers = const_defined?('Helpers') ? const_get('Helpers') : Module.new do  
+   6.         @@controller = ActionController::Integration::Session.new  
+   7.         def self.method_missing(method, *args, &block)  
+   8.           if @@controller && method.to_s =~ /_path$|_url$/  
+   9.             @@controller.send(method, *args, &block)  
+  10.           else  
+  11.             raise NoMethodError, "undefined method `#{method}' for #{self}"  
+  12.           end  
+  13.         end  
+  14.       end  
+  15.       ActionView::Helpers.constants.each do |constant|  
+  16.         helpers.extend ActionView::Helpers.const_get(constant) if ActionView::Helpers.const_get(constant).instance_of?(Module)  
+  17.       end  
+  18.       if args.instance_of?(Array)  
+  19.         args.each do |helper|  
+  20.           helpers.extend helper if helper.instance_of?(Module)  
+  21.         end  
+  22.       elsif args.instance_of?(Module)  
+  23.         helpers.extend args  
+  24.       end  
+  25.       const_set( 'Helpers', helpers ) unless const_defined?('Helpers')  
+  26.     end  
+  27.   end  
+  28. end
