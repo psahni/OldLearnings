@@ -1,0 +1,30 @@
+  require 'irb/completion'
+  require 'irb/ext/save-history'
+  require 'rubygems'
+  %x{gem install 'wirble' --no-ri --no-rdoc} unless Gem.available?('wirble')
+  Gem.refresh 
+  require 'wirble'
+  
+  Wirble.init
+  Wirble.colorize
+  
+  colors = Wirble::Colorize.colors.merge({
+   :object_class => :purple,
+   :symbol => :purple,
+   :symbol_prefix => :purple
+  })
+  Wirble::Colorize.colors = colors
+  puts "------------------Welcome to Prashants Local Machine Console---------" 
+  Dir.glob( File.join(Dir.pwd, *%w<app models ** *.rb>) ).map { |file_name|
+  table_name = File.basename(file_name).split('.')[0..-2].join
+  Object.instance_eval do
+    define_method(table_name) do |*args|
+      table_class = table_name.camelize.constantize
+      if args.empty?
+        table_class
+      else
+        table_class.send(:find, *args)
+      end
+    end
+  end
+}

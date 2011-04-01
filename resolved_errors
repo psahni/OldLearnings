@@ -1,3 +1,26 @@
 "ERROR:  While executing gem ... (Gem::FilePermissionError)
 	    You don't have write permissions into the /home/me/.gem/ruby/1.8 directory."
 chmod -R u-w ~/.gem
+
+------------------------------------------
+  Mysql gem install problem
+------------------------------------------
+libmysqldev
+libmysqlclient
+These are the packages u need to installf first
+
+------------------------------------------
+Postgres gem error
+------------------------------------------
+sudo apt-get install libopenssl-ruby build-essential ruby1.8-dev libpq-dev
+http://vandenabeele.com/Rails-on-Ubuntu-Jaunty
+
+postgres (0.7.9.2008.01.28
+pg
+
+Both are neccssary
+------------------------------------------
+  WIRELESS IN MINT
+------------------------------------------
+ndisgtk
+firmwire-b43-lapphy-installer

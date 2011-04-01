@@ -84,3 +84,20 @@ Responsibility of / Expectations from the Role
 • Must have good research skills
 
 • Need excellent oral and written communication skills
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+    * Do you work with Ruby and RoR for more than 1 year?
+    * Do you know how to write Ruby C extension for dbus library from scratch? (Although this one already exists.)
+    * Do you know how to write Ruby/Gtk+ application, open window and embed xterm in it? And do you know critical points of such application?
+    * Do you know how to create drop shadow of RTL text in Ruby/Gtk+ using Pango?
+    * Do you know how to effectively share (r/w) very large bitmaps between two (and more) local ruby processes in Linux/BSD/Unix?
+    * Do you know how to submit background processes in RoR and synchronize actions between them?
+    * Do you know how to write speed optimized dynamic visual effects in pure Javascript (fade in-out, slide, etc.)?
+    * Do you know how to design modular RoR application?
+    * Do you write tests for every feature of your application?
+    * Do you how to get list of PIDs of specific UID in Linux?
+    * Do you know how to join your Ruby application into multicast group and get UDP stream?    
+-------------------------------------------------------------------------------------------------------------------------------
+

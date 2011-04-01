@@ -118,16 +118,16 @@ limit 1;
   end
 
 ----------------------------------------------------------------
-   1. class ApplicationController < ActionController::Base  
-   2.   def self.include_helper(*args)  
-   3.     require 'action_controller/integration'  
-   4.     class_eval do  
-   5.       helpers = const_defined?('Helpers') ? const_get('Helpers') : Module.new do  
-   6.         @@controller = ActionController::Integration::Session.new  
-   7.         def self.method_missing(method, *args, &block)  
-   8.           if @@controller && method.to_s =~ /_path$|_url$/  
-   9.             @@controller.send(method, *args, &block)  
-  10.           else  
+   class ApplicationController < ActionController::Base  
+      def self.include_helper(*args)  
+       require 'action_controller/integration'  
+       class_eval do  
+          helpers = const_defined?('Helpers') ? const_get('Helpers') : Module.new do  
+            @@controller = ActionController::Integration::Session.new  
+            def self.method_missing(method, *args, &block)  
+              if @@controller && method.to_s =~ /_path$|_url$/  
+                @@controller.send(method, *args, &block)  
+           else  
   11.             raise NoMethodError, "undefined method `#{method}' for #{self}"  
   12.           end  
   13.         end  
@@ -146,3 +146,22 @@ limit 1;
   26.     end  
   27.   end  
   28. end
+  
+"ABOUT BUNDLER"
+  
+* tbuehlmann has quit (Ping timeout: 276 seconds)
+<Radar> no, that's not how Bundler works sorry.
+<Radar> If the gem has already been installed locally by Bundler or Rubygems then bundler will pick it up
+<psahni_> Ok, but if want to take backup of my gems
+<psahni_> so if later hard disk crashes
+<psahni_> i want to run my rails applications as quicky as possible
+<Radar> Then you can install them to a path using bundle install <path>
+<psahni_> what do u suggest
+<Radar> That you use the built in `bundle install` method, no path
+<Radar> That is as quickly and as painlessly as possible as you get
+<Radar> I told you: bundle install with a path will do that.
+<deryl> and then add versions to your gemlines in Gemfile, bundle install then bundle package
+* Sdwrage has quit (Ping timeout: 246 seconds)
+<deryl> that will copy all the gems that app relies on to vendor/cache/ and then in the future you can use those gems to get back up. gem install vendor/cache/*.gem && bundle install --local
+<deryl> done done
+<deryl> omnly reason fof the bundle install --local afterwards is for bundler to update its reference points. have fun

@@ -24,6 +24,9 @@ File.expand_path(File.join(File.dirname(__FILE__), '../../..'))
 >> File.expand_path(File.join(File.dirname(__FILE__)))
 => "/home/sahni/vinsol-dot-com"
 >>
+
+require File.join(Rails.root, "config", "environment")
+
 ----------------------------------------------------------------------------------------------
 RAILS_GEM_VERSION = nil
 RAILS_ROOT = File.expand_path(File.join(File.dirname(__FILE__), '../../..'))
@@ -42,4 +45,7 @@ end
 Fsck - A Ruby gem that allows you to be yourself while writing code. http://bit.ly/hXsQow
 ---------------------------------------------------------------------------------------------
 Dir[File.join(Rails.root, 'app', 'jobs', '*.rb')].each { |file| require file }
-
+---------------------------------------------------------------------------------------------
+REGEX
+Url
+/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix

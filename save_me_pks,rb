@@ -1,0 +1,251 @@
+
+module SaveMe
+  
+  def self.included(klass)
+    klass.extend(ClassMethods)
+    klass.instance_variable_set(:@users, [])    
+  end
+  
+  module ClassMethods
+
+
+    include Enumerable
+    
+    def method_added(name)
+      return if @_adding_a_method
+      @_adding_a_method = true
+      sname = name.to_s
+      if sname =~ /=\Z/
+        sname.slice!(-1)
+        new_method =  "def #{'find_by_' << sname}(finder)
+                            found = nil                          
+                          @users.each do |user|
+                            if user.#{sname} == finder
+                              found = user                              
+                            else
+                              nil
+                            end
+                          end
+                          found                         
+                        end"
+        self.instance_eval(new_method)      
+      end
+      @_adding_a_method = false
+    end
+
+    def each
+      @users.each {|obj| yield obj}
+    end
+
+
+
+#This defines all the validation methods dynamically
+    def method_missing(method_sym,*args, &block)
+      @validations ||= {}
+      method_name = method_sym.to_s      
+      if method_name =~ /\Avalidates_(\w+)_of\Z/
+        validation = $1
+        case validation        
+          when "uniqueness" then @validations[:uniqueness] = args; define_method("validate_uniqueness")
+          when "format" then   @validations[:format] = args; define_method("validate_format")
+          when "length" then @validations[:length] = args; define_method("validate_length")
+          when "presence" then @validations[:presence] = args; define_method("validate_presence")
+          else super
+        end
+      else
+        super
+      end
+    end
+
+    def define_method(name)
+       if name == "validate_presence"
+          meth_def = "def validate_presence(user)
+                        return_value = true
+                        params_arr = @validations[:presence]
+                        i = params_arr.size - 1
+                        while i >= 0 do
+                          if params_arr[i].is_a?(Hash)
+                            params_arr[i].each do |k, v|
+                               if k.to_s == 'if'
+                                 res = call_if_or_unless(k, v, user)
+                                 return true if res == false || res.nil?                                  
+                               elsif k.to_s == 'unless'
+                                 res = call_if_or_unless(k, v, user)
+                                 return true if res
+                               end                                
+                            end
+                          else
+                            res = user.send(params_arr[i])
+                            if res.nil? || res.empty?
+                              user.errors= params_arr[i],'can not be blank.'
+                              return_value = false
+                            end 
+                          end
+                          i = i-1                           
+                        end
+                          p user.to_s << ' could not be saved. Following errors occured.', user.errors if user.errors
+                          return return_value
+                      end"
+          instance_eval(meth_def)
+        end
+      if name == "validate_length"
+        meth_def = "def validate_length(user)                       
+                      return_value = true
+                      length = {} 
+                      params_arr = @validations[:length]
+                        i = params_arr.size - 1
+                        while i >= 0 do
+                          if params_arr[i].is_a?(Hash)
+                            params_arr[i].each do |k, v|
+                               if k == :if
+                                 res = call_if_or_unless(k, v, user)
+                                 return true if res == false || res.nil?                                  
+                               elsif k == :unless
+                                 res = call_if_or_unless(k, v, user)
+                                 return true if res
+                                elsif k == :minimum || k == :maximum
+                                  length[k] = v
+                                end                                  
+                              end                         
+                          else
+                            res = user.send(params_arr[i])
+                            length.each do |k, v|
+                              if k == :minimum
+                                if res.length < v
+                                  user.errors= params_arr[i],' too short.'
+                                  return_value = false
+                                end
+                              end
+                              if k == :maximum
+                                if res.length > v
+                                  user.errors= params_arr[i],' too long.'
+                                  return_value = false
+                                end
+                              end  
+                            end
+                            
+                          end
+                          i = i-1                           
+                        end
+                          p user.to_s << ' could not be saved. Following errors occured.', user.errors if user.errors
+                          return return_value
+                      end"
+          instance_eval(meth_def)
+      end
+    end
+
+    def call_if_or_unless(condition, method, obj)
+      if condition == :if
+        if method.is_a?(Proc)
+          return res = method.call(obj)
+        else
+          return res = obj.send(method)
+        end
+    elsif condition == :unless
+        if method.is_a?(Proc)
+          return res = method.call(obj)          
+        else
+          return res = obj.send(method)
+        end
+      end
+    end
+
+    
+
+    def define_writer(name) 
+      module_eval("def #{name}
+                      instance_variable_get(:@#{name})
+                  end")
+    end  
+
+
+    def save_user(user)
+      validated = validate_user(user)
+      if validated && !user.errors 
+        @users << user
+        return true
+      else
+        nil
+      end        
+    end
+
+    def create(*args, &block)
+      if args[0].is_a?(Hash)
+        arguments = args
+      else
+        arguments = *args
+      end
+      
+     arguments.each do |usr_attr_hash|
+        new_usr = self.new
+        usr_attr_hash.each do |k, v|
+           new_usr.send(k.to_s << '=', v)
+          end
+          new_usr.save
+          yield(new_usr) if block
+      end         
+    end
+   
+
+    def validate_user(user)
+      return_value = true
+      
+        if @validations[:presence] then result = validate_presence(user); return_value = result end
+        if @validations[:uniqueness] then result = validate_uniqueness(user); return_value = result end
+        if @validations[:format] then result = validate_format(user); return_value = result end
+        if @validations[:length] then result = validate_length(user); return_value = result end  
+#        else return true
+      
+      return return_value
+    end
+
+
+    def find(index)
+      @users[index-1] if @users
+    end
+    
+    def all
+      @users
+    end
+
+  end
+
+
+
+  def errors=(*err)
+    @errors ||= {}
+    @errors[*err[0][0]] = *err[0][1]    
+  end
+
+  def errors
+    @errors
+  end
+
+
+
+
+    def method_missing(method_sym, *args, &block)
+      method_name = method_sym.to_s
+      if self.class.instance_methods().include?(method_name + "=")
+        self.class.define_writer(method_name)
+        send(method_sym)
+      else
+        super
+      end
+    end
+
+  def save
+    if self.class.instance_methods.include?('validates')
+      unless validates
+        @errors ||= {}
+        p @errors[:errors] = "Validation Failed for #{self}"
+      else
+        self.class.save_user(self)
+      end
+    else
+      self.class.save_user(self)
+    end
+  end
+
+end
+
